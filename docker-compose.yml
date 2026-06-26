@@ -11,7 +11,7 @@ services:
     env_file:
       - .env
     ports:
-      - "3000:3000"
+      - "3001:3000"
 
   # ── Frontend Nginx ───────────────────────────────────────────────
   frontend:
@@ -21,7 +21,7 @@ services:
     container_name: cmdb_frontend
     restart: always
     ports:
-      - "8080:80"
+      - "7443:80"
     depends_on:
       - backend
 
@@ -40,5 +40,23 @@ services:
     environment:
       AGENTLESS_INTERVAL_SECONDS: ${AGENTLESS_INTERVAL_SECONDS:-1200}
       AGENTLESS_INPUT_FILE: ${AGENTLESS_INPUT_FILE:-Pasta1.csv}
+    depends_on:
+      - backend
+
+  # ── Worker Agentes ──────────────────────────────────────────────
+  agentes-worker:
+    build:
+      context: ../cmdb-workers/agentes
+      dockerfile: Dockerfile
+    container_name: cmdb_agentes_worker
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ../cmdb-workers/agentes/.env
+      - ./.env
+    environment:
+      RUN_FOREVER: "true"
+      SYNC_INTERVAL_SECONDS: ${AGENTES_INTERVAL_SECONDS:-1260}
     depends_on:
       - backend

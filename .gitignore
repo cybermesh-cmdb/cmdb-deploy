@@ -1,0 +1,4 @@
+# Local environment files (never commit real secrets)
+.env
+.env.*
+!.env.production.example

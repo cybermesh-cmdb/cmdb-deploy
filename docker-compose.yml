@@ -39,7 +39,7 @@ services:
       - ./.env
     environment:
       AGENTLESS_INTERVAL_SECONDS: ${AGENTLESS_INTERVAL_SECONDS:-1200}
-      AGENTLESS_INPUT_FILE: ${AGENTLESS_INPUT_FILE:-Pasta1.csv}
+      AGENTLESS_INPUT_FILE: ${AGENTLESS_INPUT_FILE:-agentless.csv}
     depends_on:
       - backend
 

@@ -18,6 +18,8 @@ services:
     build:
       context: ../front-end
       dockerfile: Dockerfile
+      args:
+        BUILD_VERSION: ${FRONTEND_BUILD_VERSION:-dev}
     container_name: cmdb_frontend
     restart: always
     ports:
